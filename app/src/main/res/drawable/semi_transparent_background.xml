@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#5A5A5A"/> <!-- Adjust the color and opacity here -->
+    <!-- Optional: Add a blur effect -->
+   <!-- Add rounded corners if needed -->
+</shape>

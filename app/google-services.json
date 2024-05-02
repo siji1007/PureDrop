@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1016013324474",
+    "project_id": "puredrop-d420e",
+    "storage_bucket": "puredrop-d420e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016013324474:android:c3cc0c42fde168d603c283",
+        "android_client_info": {
+          "package_name": "com.example.puredrop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-WxMTq66o_Rt4Jd2G3kYSgPbQNr0iF7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
