@@ -266,12 +266,13 @@
 
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="339dp"
-        android:textAlignment="center"
         android:layout_below="@+id/life"
-        android:text="Scroll down to see parts life" />
+        android:layout_marginBottom="339dp"
+        android:text="Scroll down to see parts life"
+        android:textAlignment="center" />
 
 
     <FrameLayout
@@ -280,8 +281,8 @@
         android:layout_height="120dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="70dp"
-        android:layout_marginEnd="256dp"
+        android:layout_margin="23dp"
+        android:layout_marginBottom="153dp"
         android:background="@drawable/round_button"
         android:elevation="8dp"
         android:gravity="center">
@@ -297,7 +298,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="START"
-
+            android:id="@+id/start_id"
             android:textColor="@color/black" />
 
     </FrameLayout>
