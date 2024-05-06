@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:id="@+id/DescNet"
             android:text="Checking the internet connection"
             app:layout_constraintTop_toBottomOf="@+id/CheckingTitle"
 

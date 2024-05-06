@@ -41,7 +41,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-
+            android:id="@+id/cover"
             android:layout_height="wrap_content">
 
 
@@ -302,6 +302,50 @@
             android:textColor="@color/black" />
 
     </FrameLayout>
+
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/SwitchBtn"
+        android:layout_marginTop="-320dp"
+
+        android:layout_marginEnd="10dp"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/Bluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OFF"
+        android:layout_below="@id/SwitchBtn"
+        android:layout_marginEnd="22dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/red"
+
+
+
+        />
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BLUETOOTH"
+        android:layout_below="@id/Bluetooth"
+        android:layout_marginEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="11dp"
+
+        android:textColor="@color/blue"
+
+
+
+        />
 
 
 
