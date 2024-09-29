@@ -101,6 +101,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="150dp"
+                    android:id="@+id/TDS_SENSOR"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     app:cardCornerRadius="8dp">
@@ -137,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     app:cardCornerRadius="8dp"
+                    android:id="@+id/EC_CENSOR"
                     android:layout_marginStart="5dp">
 
 
@@ -174,6 +176,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     app:cardCornerRadius="8dp"
+                    android:id="@+id/PH_SENSOR"
                     android:layout_marginStart="5dp">
 
 
@@ -208,6 +211,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     app:cardCornerRadius="8dp"
+                    android:id="@+id/TURBIDITY_SENSOR"
                     android:layout_marginStart="5dp">
 
 

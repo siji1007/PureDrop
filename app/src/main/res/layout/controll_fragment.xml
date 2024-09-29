@@ -12,6 +12,7 @@
         android:layout_height="200dp"
         android:background="@color/black"
         android:id="@+id/data_background"
+
         >
 
         <TableLayout
@@ -19,6 +20,16 @@
             android:layout_height="match_parent"
             android:id="@+id/tableLayout"
             android:stretchColumns="*"
+            />
+
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:id="@+id/ChartShow"
+            android:background="@color/white"
+          android:visibility="gone"
             />
 
     </FrameLayout>
@@ -62,8 +73,9 @@
                       android:layout_width="100dp"
                       android:layout_height="wrap_content"
                       android:src="@drawable/tds"
-
+                      android:background="@color/white"
                       />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -84,7 +96,7 @@
                       <TextView
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:text="LIFE: 10%"
+                          android:text="LIFE STATUS: ✔"
                           android:textColor="@color/white"
                           android:textStyle="bold"
                           android:layout_margin="10dp"
@@ -108,12 +120,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
-
                     android:layout_height="wrap_content">
+
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ec"
+                        android:background="@color/white"
 
                         />
                     <RelativeLayout
@@ -136,7 +149,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="LIFE: 10%"
+                            android:text="LIFE STATUS: ✔"
                             android:textColor="@color/white"
                             android:textStyle="bold"
                             android:layout_margin="10dp"
@@ -164,12 +177,15 @@
                     android:orientation="horizontal"
 
                     android:layout_height="wrap_content">
+
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:src="@drawable/phlevel"
 
                         />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -190,7 +206,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="LIFE: 10%"
+                            android:text="LIFE STATUS: ✔"
                             android:textColor="@color/white"
                             android:textStyle="bold"
                             android:layout_margin="10dp"
@@ -222,6 +238,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/turbidity"
+                        android:background="@color/white"
 
                         />
                     <RelativeLayout
@@ -244,7 +261,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="LIFE: 10%"
+                            android:text="LIFE STATUS: ✔"
                             android:textColor="@color/white"
                             android:textStyle="bold"
                             android:layout_margin="10dp"
@@ -264,14 +281,24 @@
 
     </ScrollView>
 
-
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:text="CHART"
+        android:layout_below="@+id/life"
+        android:textSize="12dp"
+        android:background="@drawable/details_btn"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/DetailsShow"
+        />
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/life"
         android:layout_marginBottom="339dp"
-        android:text="Scroll down to see parts life"
+        android:text="Scroll down to see sensors life"
         android:textAlignment="center" />
 
 
@@ -342,8 +369,6 @@
         android:textSize="11dp"
 
         android:textColor="@color/blue"
-
-
 
         />
 

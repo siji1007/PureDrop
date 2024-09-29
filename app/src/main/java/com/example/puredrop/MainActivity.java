@@ -1,17 +1,25 @@
 package com.example.puredrop;
 
 
+import static android.graphics.Paint.STRIKE_THRU_TEXT_FLAG;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
 
 import android.content.Intent;
 
 import android.content.Context;
 
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -19,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import android.widget.Switch;
@@ -31,6 +40,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.app.ActivityCompat;
 ;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -60,7 +70,10 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     ViewPager2 viewPager;
 
+
     private static final int REQUEST_BLUETOOTH_PERMISSION = 0; // Or any other integer value
+
+
 
 
 
@@ -135,13 +148,174 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tableLayout);
 
 
+        showLoginDialog();
         showInternetConnectionDialog();
         setupBottomNavigation();
         setupViewPager();
         setupTabLayout(tabLayout);
 
 
+
+
+
+
+
+
+
+
+//        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+//
+//        // Get the user ID and password from the registration form
+//        String userId = "22-1234";  // This should come from user input
+//        String password = "1234";  // This should come from user input
+//        String datePurchased = "October 2, 2023";  // This is the date you want to store
+//
+//        // Store the user ID, password, and Date_Purchased in Firebase
+//        usersRef.child(userId).child("password").setValue(password)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        // Data successfully stored in Firebase
+//                        // Now store the Date_Purchased
+//                        usersRef.child(userId).child("Date_Purchased").setValue(datePurchased)
+//                                .addOnCompleteListener(task1 -> {
+//                                    if (task1.isSuccessful()) {
+//                                        Toast.makeText(MainActivity.this, "User created successfully", Toast.LENGTH_SHORT).show();
+//                                    } else {
+//                                        // Handle the failure if the Date_Purchased was not stored
+//                                        Toast.makeText(MainActivity.this, "Error saving Date Purchased: " + task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+//                    } else {
+//                        // Handle the failure if the data was not stored
+//                        Toast.makeText(MainActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+
     }
+
+
+
+
+
+
+    private void openFacebookPage() {
+        // Replace with your developer's Facebook page URL
+        String facebookUrl = "https://www.facebook.com/CJayzzz.com.ph"; // Change this to the actual URL
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(facebookUrl));
+        startActivity(intent);
+    }
+
+    private void showLoginDialog() {
+
+        // Get the SharedPreferences instance
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        // If the user is already logged in, do not show the login form
+        if (isLoggedIn) {
+            // User is already logged in, no need to show the dialog
+            return;
+        }
+
+        // Inflate the login form layout
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View loginView = inflater.inflate(R.layout.loginform, null);
+
+        // Create an AlertDialog for the login form
+        AlertDialog loginDialog = new AlertDialog.Builder(this)
+                .setView(loginView)
+                .setCancelable(false)
+                .create();
+
+        loginDialog.show();
+
+        // Handle the login button click
+        Button buttonLogin = loginView.findViewById(R.id.buttonLogin);
+        TextView userIdInput = loginView.findViewById(R.id.editTextUserId);
+        TextView passwordInput = loginView.findViewById(R.id.editTextPassword);
+
+        // Find the Developer button inside the loginView
+        Button developerButton = loginView.findViewById(R.id.Developer); // Changed to loginView
+
+
+        if (developerButton != null) {
+            developerButton.setOnClickListener(v -> openFacebookPage());
+        } else {
+            Toast.makeText(this, "Developer button not found", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+        buttonLogin.setOnClickListener(v -> {
+            // Get user input
+            String userId = userIdInput.getText().toString();
+            String password = passwordInput.getText().toString();
+
+            // Check if inputs are empty
+            if (userId.isEmpty() || password.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please enter both User ID and Password", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Query Firebase to check for userID and password
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+            usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        String storedPassword = dataSnapshot.child("password").getValue(String.class);
+                        if (storedPassword != null && storedPassword.equals(password)) {
+                            // Successful login, store login status
+                            sharedPreferences.edit().putBoolean("isLoggedIn", true).apply();
+                            sharedPreferences.edit().putString("userId", userId).apply();
+                            Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                            // Dismiss the login dialog
+                            loginDialog.dismiss();
+                            createNotification("Login Successful", "Welcome back, " + userId + "!");
+                        } else {
+                            // Password mismatch
+                            Toast.makeText(MainActivity.this, "Incorrect password", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // User ID does not exist
+                        Toast.makeText(MainActivity.this, "User ID does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle possible errors
+                    Toast.makeText(MainActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
+
+    private void createNotification(String title, String message) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // For API level 26 and above, create a notification channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("login_channel", "Login Notifications",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // Create the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "login_channel")
+                .setSmallIcon(R.drawable.logo) // Replace with your notification icon
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        // Show the notification
+        notificationManager.notify(1, builder.build());
+    }
+
+
 
 
     private void showInternetConnectionDialog() {
@@ -150,7 +324,6 @@ public class MainActivity extends AppCompatActivity {
             overlayLayout.setVisibility(View.VISIBLE);
 
         }
-
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.internet_ckeck, null);
