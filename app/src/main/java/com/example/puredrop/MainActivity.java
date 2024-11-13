@@ -62,22 +62,13 @@ import android.Manifest;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     private static final int DIALOG_DURATION = 7000;
     private DatabaseReference rootDatabaseRef;
     MeowBottomNavigation bottomNavigation;
     private BluetoothAdapter bluetoothAdapter;
     ViewPager2 viewPager;
 
-
     private static final int REQUEST_BLUETOOTH_PERMISSION = 0; // Or any other integer value
-
-
-
-
-
-
 
 
     public boolean isSwitchChecked() {
@@ -129,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FrameLayout overlayLayout;
 
+    private DatabaseReference notificationRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         rootDatabaseRef = FirebaseDatabase.getInstance().getReference().child("your_data_node");
+        notificationRef = FirebaseDatabase.getInstance().getReference().child("notification");
+
+        // Listen for changes to the notification flag
+        listenForNotificationChanges();
 
         overlayLayout = findViewById(R.id.overlayLayout);
 
@@ -166,9 +163,9 @@ public class MainActivity extends AppCompatActivity {
 //        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
 //
 //        // Get the user ID and password from the registration form
-//        String userId = "22-1234";  // This should come from user input
-//        String password = "1234";  // This should come from user input
-//        String datePurchased = "October 2, 2023";  // This is the date you want to store
+//        String userId = "22-1882";  // This should come from user input
+//        String password = "1337";  // This should come from user input
+//        String datePurchased = "July 4, 2020";  // This is the date you want to store
 //
 //        // Store the user ID, password, and Date_Purchased in Firebase
 //        usersRef.child(userId).child("password").setValue(password)
@@ -193,9 +190,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void listenForNotificationChanges() {
+        // Add a listener to the "notification" flag in Firebase
+        notificationRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Get the value of the "notification" flag (true or false)
+                Boolean notifyFlag = dataSnapshot.getValue(Boolean.class);
 
+                // If the flag is true, create a notification
+                if (notifyFlag != null && notifyFlag) {
+                    // Trigger the notification when the value is true
+                    createNotification("Device Connection", "The hardware device is connected");
 
+                    // Optionally, reset the notification flag to false after notifying
+                    // This step is optional, depending on how you want to handle the flag
+                    notificationRef.setValue(false);  // Reset the flag to prevent constant notifications
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle possible errors (e.g., Firebase read failure)
+                Log.e("MainActivity", "Error reading notification flag: " + databaseError.getMessage());
+            }
+        });
+    }
 
 
     private void openFacebookPage() {

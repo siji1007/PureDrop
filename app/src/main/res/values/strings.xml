@@ -6,4 +6,5 @@
     <string name="description">PureDrop is a system designed to purify rainwater for drinking purposes. Through advanced technology, users can assess the quality of the filtered water. </string>
     <string name="buttonTitle">START</string>
     <string name="description_1">Through sensors measuring total disolved solids (TDS), Electrical Conductivity (EC), And PH Levels, Employs firebase for Real-Time Data Storage</string>
+    <string name="logout">LOGOUT</string>
 </resources>
